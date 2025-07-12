@@ -1,0 +1,73 @@
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #3a87fa; /* azul cálido claro */
+  color: #003366; /* azul oscuro para texto */
+  margin: 20px;
+}
+
+input, textarea, button {
+  display: block;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #99bbff;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #003366;
+  background-color: #f0f6ff; /* azul muy claro para inputs */
+  transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #3366cc;
+  outline: none;
+  background-color: #d9e6ff;
+}
+
+button {
+  background-color: #3366cc; /* azul cálido */
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #264d99;
+}
+
+h2, h3 {
+  color: #003366;
+  font-weight: 700;
+}
+
+table {
+  width: 100%;
+  max-width: 900px;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+  border: 1px solid #99bbff;
+  padding: 10px;
+  text-align: left;
+  color: #003366;
+}
+
+th {
+  background-color: #cce0ff;
+  font-weight: 700;
+}
+
+.error {
+  color: #cc3300;
+  font-weight: 600;
+}

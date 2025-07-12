@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Tareas</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Celdas de contenido de la tabla: fondo oscuro y texto blanco */
+    #task-table td {
+      background: rgba(35,35,43,0.92) !important;
+      color: #fff !important;
+      font-weight: 500;
+    }
+    /* Encabezado de la tabla transparente y letras degradadas */
+    #task-table thead tr {
+      background: rgba(255,255,255,0.08);
+    }
+    #task-table th {
+      color: rgba(255,255,255,0.65) !important;
+      font-weight: 600;
+      background: transparent !important;
+    }
+    /* Select de filtro de estatus transparente y texto blanco */
+    #filter-status {
+      background: rgba(255,255,255,0.10) !important;
+      color: #fff !important;
+      border: 1.5px solid #fff !important;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+    #filter-status option {
+      background: #23232b !important;
+      color: #fff !important;
+    }
+    /* Letras degradadas para comentarios */
+    #main-section label[for="comments"] {
+      color: rgba(255,255,255,0.55) !important;
+      font-weight: 500;
+    }
+    #comments::placeholder {
+      color: rgba(255,255,255,0.45) !important;
+      opacity: 1 !important;
+    }
+    table, th, td { border: 0.5px solid #888; border-collapse: collapse; padding: 5px; }
+    #main-section { display: none; }
+    /* Mejorar legibilidad de los campos de login y registro */
+    #form-login input,
+    #form-register input,
+    #main-section input,
+    #main-section textarea,
+    #main-section select {
+      background: rgba(255,255,255,0.10);
+      border: 1.5px solid #fff;
+      color: #fff;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+    #form-login input::placeholder,
+    #form-register input::placeholder,
+    #main-section input::placeholder,
+    #main-section textarea::placeholder {
+      color: #fff;
+      opacity: 0.85;
+    }
+    #main-section label,
+    #main-section h2,
+    #main-section h3,
+    #main-section {
+      color: #fff !important;
+    }
+    /* Letras degradadas para la descripción */
+    #main-section label[for="task-desc"] {
+      color: rgba(255,255,255,0.55) !important;
+      font-weight: 500;
+    }
+    #task-desc::placeholder {
+      color: rgba(255,255,255,0.45) !important;
+      opacity: 1 !important;
+    }
+    /* Select de estatus transparente y texto blanco */
+    #status {
+      background: rgba(255,255,255,0.10) !important;
+      color: #fff !important;
+      border: 1.5px solid #fff !important;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+    #status option {
+      background: #23232b !important;
+      color: #fff !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="main-header" style="width:100vw;position:fixed;top:0;left:0;z-index:11;text-align:center;padding-top:40px;">
+    <h1 style="font-size:2.4rem;font-weight:700;color:#fff;margin-bottom:24px;letter-spacing:1px;">Gestor de Tareas</h1>
+  </div>
+  <section id="login-section" style="display: flex; justify-content: center; align-items: center; gap: 40px; min-height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; background: #23232b; z-index: 10;">
+    <form id="form-login" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(6px); padding: 24px 32px; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.10); min-width: 260px;">
+      <h2 style="text-align:center;">Iniciar Sesión</h2>
+      <input id="username" placeholder="Usuario" autocomplete="username" style="width:100%;margin-bottom:10px;">
+      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" style="width:100%;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <input type="checkbox" id="remember-session" style="margin:0;">
+        <label for="remember-session" style="font-size:0.97rem;cursor:pointer;">Inicio de sesión automático</label>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <input type="checkbox" id="remember-credentials" style="margin:0;">
+        <label for="remember-credentials" style="font-size:0.97rem;cursor:pointer;">Recordar credenciales</label>
+      </div>
+      <button onclick="login()" type="button" style="width:100%;margin-bottom:10px;background:#1565c0;color:#fff;border:1px solid #0d47a1;font-weight:600;font-size:1.1rem;padding:10px 0;border-radius:8px;">Entrar</button>
+      <div id="login-error" style="color:red;min-height:20px;text-align:center;"></div>
+    </form>
+    <form id="form-register" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(6px); padding: 24px 32px; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.10); min-width: 260px;">
+      <h2 style="text-align:center;">Registrarse</h2>
+      <input id="reg-username" placeholder="Nuevo usuario" autocomplete="username" style="width:100%;margin-bottom:10px;">
+      <input id="reg-password" type="password" placeholder="Nueva contraseña" autocomplete="new-password" style="width:100%;margin-bottom:16px;">
+      <button onclick="registrarUsuario()" id="register-btn" type="button" style="width:100%;margin-bottom:10px;background:#43a047;color:#fff;border:1px solid #2e7031;font-weight:600;font-size:1.1rem;padding:10px 0;border-radius:8px;">Registrar</button>
+      <div id="register-error" style="color:red;min-height:20px;text-align:center;"></div>
+    </form>
+  </section>
+
+  <section id="main-section" style="min-height:100vh;width:100vw;position:fixed;top:0;left:0;background:#23232b;z-index:9;overflow:auto;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; margin-left: 24px; margin-top: 24px; margin-right: 24px;">
+      <h2 style="margin: 0;">Bienvenido: <span id="user-display"></span></h2>
+      <button onclick="logout()" id="logout-btn" type="button" style="background: #ffb3b3; color: #a10000; border: 1px solid #e6a1a1;">Cerrar sesión</button>
+    </div>
+
+    <form id="task-form">
+      <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+        <div style="flex: 1 1 220px; min-width: 220px;">
+          <label for="task-id" style="font-weight:500;">ID</label>
+          <input id="task-id" placeholder="ID" style="width:100%; margin-bottom:10px;">
+        </div>
+        <div style="flex: 2 1 320px; min-width: 220px;">
+          <label for="task-title" style="font-weight:500;">Título</label>
+          <input id="task-title" placeholder="Título" style="width:100%; margin-bottom:10px;">
+        </div>
+        <div style="flex: 1 1 220px; min-width: 220px;">
+          <label for="client-name" style="font-weight:500;">Cliente</label>
+          <input id="client-name" placeholder="Cliente" style="width:100%; margin-bottom:10px;">
+        </div>
+        <div style="flex: 1 1 220px; min-width: 220px;">
+          <label for="project-id" style="font-weight:500;">Proyecto</label>
+          <input id="project-id" placeholder="Proyecto" style="width:100%; margin-bottom:10px;">
+        </div>
+        <div style="flex: 1 1 220px; min-width: 220px;">
+          <label for="start-date" style="font-weight:500;">Fecha</label>
+          <input id="start-date" type="date" style="width:100%; margin-bottom:10px;">
+        </div>
+        <div style="flex: 1 1 220px; min-width: 220px;">
+          <label for="status" style="font-weight:500;">Estatus</label>
+          <select id="status" style="width:100%; margin-bottom:10px;">
+            <option value="Por hacer">Por hacer</option>
+            <option value="En progreso">En progreso</option>
+            <option value="Rechazado">Rechazado</option>
+            <option value="Cancelado">Cancelado</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="En pruebas de calidad">En pruebas de calidad</option>
+            <option value="En validación por el usuario">En validación por el usuario</option>
+            <option value="En proceso de liberación">En proceso de liberación</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin: 16px 0 10px 0;">
+        <label for="task-desc" style="font-weight:500;">Descripción</label>
+        <textarea id="task-desc" placeholder="Agrega una Descripción" style="width:100%; min-height:60px; margin-bottom:10px;"></textarea>
+      </div>
+      <div style="margin-bottom: 16px;">
+        <label for="comments" style="font-weight:500;">Comentarios</label>
+        <textarea id="comments" placeholder="Agrega un comentario" style="width:100%; min-height:40px;"></textarea>
+      </div>
+      <button type="submit" style="background: #1565c0; color: #fff; border: 1px solid #0d47a1; font-weight:600; font-size:1.1rem; padding:10px 32px; border-radius:8px;">+ Crear</button>
+    </form>
+
+    <button id="update-task" style="background: #43a047; color: #fff; border: 1px solid #2e7031; font-weight:600; font-size:1.1rem; padding:10px 32px; border-radius:8px;">Actualizar tarea</button>
+
+    <h3>Filtrar por estatus:</h3>
+    <select id="filter-status">
+      <option value="Todos">Todos</option>
+      <option value="Por hacer">Por hacer</option>
+      <option value="En progreso">En progreso</option>
+      <option value="Rechazado">Rechazado</option>
+      <option value="Cancelado">Cancelado</option>
+      <option value="Cerrado">Cerrado</option>
+      <option value="En pruebas de calidad">En pruebas de calidad</option>
+      <option value="En validación por el usuario">En validación por el usuario</option>
+    </select>
+
+    <table id="task-table">
+      <thead>
+        <tr>
+          <th>ID</th><th>Título</th><th>Descripción</th><th>Fecha</th>
+          <th>Cliente</th><th>Proyecto</th><th>Comentarios</th><th>Estatus</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    // Oculta el header principal cuando se muestra la sección principal
+    function toggleHeader() {
+      var mainSection = document.getElementById('main-section');
+      var header = document.getElementById('main-header');
+      if (mainSection && header) {
+        if (mainSection.style.display === 'none' || mainSection.style.display === '') {
+          header.style.display = '';
+        } else {
+          header.style.display = 'none';
+        }
+      }
+    }
+    // Observa cambios en el display de la sección principal
+    const observer = new MutationObserver(toggleHeader);
+    observer.observe(document.getElementById('main-section'), { attributes: true, attributeFilter: ['style'] });
+    // Llama una vez al cargar
+    toggleHeader();
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+body, input, button, select, textarea, table, th, td, h1, h2, h3, h4, h5, h6, label, div, span {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#task-table tbody tr {
+  background: #fff;
+}
+/* Estilo para el fondo azul claro del inicio de sesión */
+#login-section, #main-section {
+  background-color: #b3d8fd;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+button, input[type="submit"] {
+  background: linear-gradient(180deg, #f9f9f9 0%, #e3e3e3 100%);
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 10px 28px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  outline: none;
+}
+
+button:hover, input[type="submit"]:hover {
+  background: linear-gradient(180deg, #e3e3e3 0%, #f9f9f9 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+#login-section, #main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#login-section > *, #main-section > * {
+  margin-bottom: 16px;
+}
